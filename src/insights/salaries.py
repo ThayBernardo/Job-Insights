@@ -5,10 +5,10 @@ from .jobs import read
 def get_max_salary(path: str) -> int:
     all_items = read(path)
     salary = int()
-    for test in all_items:
-        if (test["max_salary"].isnumeric()):
-            if (salary < int(test["max_salary"])):
-                salary = int(test["max_salary"])
+    for money in all_items:
+        if (money["max_salary"].isnumeric()):
+            if (salary < int(money["max_salary"])):
+                salary = int(money["max_salary"])
     return salary
 
 
