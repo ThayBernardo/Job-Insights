@@ -27,16 +27,19 @@ def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
     # Tive ajuda na resolução do exercicio
     if (
         # Por que dessa forma type(job["min_salary"]) is not int não funciona ?
-        type(job.get("min_salary")) is not int
-        or type(job.get("min_salary")) is not int
+        # type(job.get("min_salary")) is not int
+        # or type(job.get("max_salary")) is not int
+        "min_salary" not in job
+        or "max_salary" not in job
+        or str(job["max_salary"]).isdigit() is False
+        or str(job["min_salary"]).isdigit() is False
         # isinstance verifica se o primeiro parametro é de algum dos tipos
         # do segundo parametro
-        or isinstance(salary, (int, float, str)) is False
-        or ("min_salary" or "max_salary") not in job
-        or job["min_salary"] > job["max_salary"]
+        or isinstance(salary, (int, str)) is False
+        or int(job["min_salary"]) > int(job["max_salary"])
     ):
         raise ValueError
-    return job["min_salary"] <= int(salary) <= job["max_salary"]
+    return int(job["min_salary"]) <= int(salary) <= int(job["max_salary"])
 
 
 def filter_by_salary_range(
@@ -45,13 +48,9 @@ def filter_by_salary_range(
 ) -> List[Dict]:
     list_jobs = []
     for job in jobs:
-        jobs_salary = {
-            "min_salary": job["min_salary"],
-            "max_salary": job["max_salary"]
-        }
-        job_actual = dict(jobs_salary)
-        if matches_salary_range(job_actual, salary):
-            list_jobs.append(job)
-        else:
-            raise ValueError
+        try:
+            if matches_salary_range(job, salary):
+                list_jobs.append(job)
+        except ValueError:
+            pass
     return list_jobs
