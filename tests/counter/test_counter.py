@@ -1,5 +1,6 @@
-# from src.pre_built.counter import count_ocurrences
+from src.pre_built.counter import count_ocurrences
 
 
 def test_counter():
-    pass
+    word = 'Python'
+    assert count_ocurrences('data/jobs.csv', word.casefold()) == 1639
